@@ -25,13 +25,11 @@ void GRAFO :: destroy()
 
 }
 
-void GRAFO :: build (char nombrefichero[85], int &errorapertura)
-{
+void GRAFO :: build (char nombrefichero[85], int &errorapertura) {
     ElementoLista     dummy;
 	ifstream textfile;
 	textfile.open(nombrefichero);
-	if (textfile.is_open())
-    {
+	if (textfile.is_open()) {
 		unsigned i, j, k;
 		// leemos por conversion implicita el numero de nodos, arcos y el atributo dirigido
 		textfile >> (unsigned &) n >> (unsigned &) m >> (unsigned &) dirigido;
@@ -114,9 +112,9 @@ void GRAFO::RecorridoProfundidad()
 void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en amplitud
 				vector<LA_nodo>  L, //lista que recorremos, LS o LP; por defecto LS
 				vector<unsigned> &pred, //vector de predecesores en el recorrido
-				vector<unsigned> &d) //vector de distancias a nodo i+1
-//Recorrido en amplitud con la construcci�n de pred y d: usamos la cola
-{
+				vector<unsigned> &d) { //vector de distancias a nodo i+1
+//Recorrido en amplitud con la construccion de pred y d: usamos la cola
+
     vector<bool> visitado; //creamos e iniciamos el vector visitado
     visitado.resize(n, false);
     visitado[i] = true;
@@ -145,6 +143,10 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
         //Hemos terminado pues la cola est� vac�a
     };
 }
+//Construye un recorrido en amplitud desde un nodo inicial
+void RecorridoAmplitud() {
 
-void RecorridoAmplitud(); //Construye un recorrido en amplitud desde un nodo inicial
-{
+
+
+}
+

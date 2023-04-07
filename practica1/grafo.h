@@ -23,8 +23,7 @@ const int maxint = 1000000; //Para ciertos algoritmos es necesario codificar est
 
 // definicion de un elemento de la lista de adyacencia
 
-typedef struct
-{
+typedef struct{
 	unsigned j; // nodo
 	int      c; // atributo para expresar los costes, pesos, las longitudes, las inversiones, etc...
 } ElementoLista;
@@ -32,8 +31,7 @@ typedef struct
 // definicion del tipo de una lista de adyacencia de un nodo
 typedef vector<ElementoLista> LA_nodo;
 
-class GRAFO
- {
+class GRAFO {
 	unsigned            dirigido;  //0 si el grafo es no dirigido y 1 si es dirigido
 	unsigned            n;         // numero de NODOS
 	unsigned            m;         // numero de ARCOS
