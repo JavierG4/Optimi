@@ -31,69 +31,94 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura) {
 	textfile.open(nombrefichero);
 	if (textfile.is_open()) {
 		unsigned i, j, k;
-		// leemos por conversion implicita el numero de nodos, arcos y el atributo dirigido
 		textfile >> (unsigned &) n >> (unsigned &) m >> (unsigned &) dirigido;
-		// los nodos internamente se numeran desde 0 a n-1
-		// creamos las n listas de sucesores
+    }
+    if (dirigido == 1) {
 		LS.resize(n);
-        // leemos los m arcos
-		for (k=0;k<m;k++)
-        	{
+        LP.resize(n);
+        for (k=0;k<m;k++) {
 			textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
-			//damos los valores a dummy.j y dummy.c
-			//situamos en la posici�n del nodo i a dummy mediante push_back
-			//pendiente de hacer un segundo push_back si es no dirigido. O no.
-			//pendiente la construcci�n de LP, si es dirigido
-			//pendiente del valor a devolver en errorapertura
-			//...
-
+            dummy.j = j - 1;
+            LS[i-1].push_back(dummy);
+            dummy.j = i - 1;
+            LS[j-1].push_back(dummy);
+        }
+        for (k=0;k<m;k++) {
+			textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
+            dummy.j = j - 1;
+            LP[i-1].push_back(dummy);
+            dummy.j = i - 1;
+            LP[j-1].push_back(dummy);
+        }
+    }
+    if (dirigido == 0) {
+        LS.resize(n);
+        for (k=0;k<m;k++) {
+			textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
+            dummy.j = j - 1;
+            LS[i-1].push_back(dummy);
+            dummy.j = i - 1;
+            LS[j-1].push_back(dummy);
+        }
+    }
 }
-
-GRAFO::~GRAFO()
-{
+GRAFO::~GRAFO() {
 	destroy();
 }
 
-GRAFO::GRAFO(char nombrefichero[85], int &errorapertura)
-{
+GRAFO::GRAFO(char nombrefichero[85], int &errorapertura) {
 	build (nombrefichero, errorapertura);
 }
 
-void GRAFO:: actualizar (char nombrefichero[85], int &errorapertura)
-{
+void GRAFO:: actualizar (char nombrefichero[85], int &errorapertura) {
     //Limpiamos la memoria dinamica asumida en la carga previa, como el destructor
     destroy();
     //Leemos del fichero y actualizamos G con nuevas LS y, en su caso, LP
     build(nombrefichero, errorapertura);
 }
 
-unsigned GRAFO::Es_dirigido()
-{
+unsigned GRAFO::Es_dirigido() {
+    if (dirigido == 1){
+        return true;
+    }
+    if (dirigido == 0){
+        return false;
+    }
 
 }
 
-void GRAFO::Info_Grafo()
-{
+void GRAFO::Info_Grafo() {
+    if(Es_dirigido() == true ) {
+        cout << "Es dirijido  | ";
+        cout << "nodos " << LP.size() << " | ";
+        cout << "Arcose" <<  << " | ";
+    }
+    if(Es_dirigido() == false ) {
+        cout << "Grafo no dirijido ";
+        cout << "nodos " << LP.size() << " | ";
+        cout << "Aristas" <<  << " | ";
+    }
+}
+
+void Mostrar_Lista(vector<LA_nodo> L) {
 
 }
 
-void Mostrar_Lista(vector<LA_nodo> L)
-{
+void GRAFO :: Mostrar_Listas (int l) {
+    if (l = 1) { // Sucesores
+        for(int w = 0; i < LS.size(); w++){
+            for(int t = 0; LS[w].size() < LP; t++)
+            cout << "[" << w+1 << "] ";
+            cout << LS[w][t].j << " : " << LS[w][t].c
+        }
+    }
+}
+
+void GRAFO::Mostrar_Matriz() {//Muestra la matriz de adyacencia, tanto los nodos adyacentes como sus costes
 
 }
 
-void GRAFO :: Mostrar_Listas (int l)
-{
-
-}
-
-void GRAFO::Mostrar_Matriz() //Muestra la matriz de adyacencia, tanto los nodos adyacentes como sus costes
-{
-
-}
-
-void GRAFO::dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vector<unsigned> &prenum, unsigned &prenum_ind, vector<unsigned> &postnum, unsigned &postnum_ind) //Recorrido en profundidad recursivo con recorridos enum y postnum
-{
+void GRAFO::dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vector<unsigned> &prenum, unsigned &prenum_ind, vector<unsigned> &postnum, unsigned &postnum_ind) { //Recorrido en profundidad recursivo con recorridos enum y postnum
 	visitado[i] = true;
     prenum[prenum_ind++]=i;//asignamos el orden de visita prenum que corresponde el nodo i
     for (unsigned j=0;j<L[i].size();j++)
@@ -104,8 +129,7 @@ void GRAFO::dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vect
     postnum[postnum_ind++]=i;//asignamos el orden de visita posnum que corresponde al nodo i
 }
 
-void GRAFO::RecorridoProfundidad()
-{
+void GRAFO::RecorridoProfundidad() {
 
 }
 
