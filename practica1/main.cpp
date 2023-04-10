@@ -43,7 +43,7 @@ void menu (unsigned dirigido, char &opcion) {
 
 
 // El principal es simplemente un gestor de menu, diferenciando acciones para dirigido y para no dirigido, y un men� inicial si no hay un grafo cargado
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {  
     int error_apertura;
     char nombrefichero[85], opcion;
     //clrscr();
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
     }
     else {
         cout<< "Grafo cargado desde el fichero " << nombrefichero << endl;
-        
+    
 
         do {
             menu(G.Es_dirigido(), opcion);
@@ -79,40 +79,33 @@ int main(int argc, char *argv[]) {
                     else {
                         cout << "Fichero cargado correctamente desde " << nombrefichero << endl;
                     };
-                    
                     break;
-
-                case 'i':
+                    
+                case 'i' :
 		            cout << "Grafo cargado desde " << nombrefichero << endl;
                     G.Info_Grafo();
                     break;
-                    }
+                    
                 case 's':
                     G.Mostrar_Listas(1);
                     break;
-                    }
+                    
                 case 'p':
                     G.Mostrar_Listas(-1);
                     break;
-                }
+                
                 case 'a':
                     G.Mostrar_Listas(0);
                     break;
-                }
-                case 'y':
-                    G.Mostrar_Matriz();
-                    break;
-                }
                 case 'm':
                     G.RecorridoAmplitud();
                     break;
-                }
-                case 'k':
-                    G.
-                    break;
-                }
-        while (opcion != 'q');
+            } 
 
+
+        }     
+        while (opcion != 'q');
+    }
     cout << "Fin del programa" << endl;
 	return(0);
 };

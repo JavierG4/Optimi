@@ -29,37 +29,32 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura) {
     ElementoLista     dummy;
 	ifstream textfile;
 	textfile.open(nombrefichero);
+    
 	if (textfile.is_open()) {
-		unsigned i, j, k;
 		textfile >> (unsigned &) n >> (unsigned &) m >> (unsigned &) dirigido;
-    }
-    if (dirigido == 1) {
-		LS.resize(n);
-        LP.resize(n);
-        for (k=0;k<m;k++) {
-			textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
-            dummy.j = j - 1;
-            LS[i-1].push_back(dummy);
-            dummy.j = i - 1;
-            LS[j-1].push_back(dummy);
+        unsigned i, j, k;
+        LS.resize(n); // ajustamos tamaño de sucesor
+        if(dirigido == 1) { // Ajustas tamaño del pred
+            LP.resize(n);
         }
-        for (k=0;k<m;k++) {
-			textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
+        for (k = 0; k<m; k++){
+            textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
             dummy.j = j - 1;
-            LP[i-1].push_back(dummy);
-            dummy.j = i - 1;
-            LP[j-1].push_back(dummy);
+            LS[i - 1].push_back(dummy);
+            if(dirigido == 0) {
+                ElementoLista dummy1;
+                dummy1.j = i -1;
+                dummy1.c = dummy.c;
+                LS[j - 1].push_back(dummy1);
+            }
+            else if (dirigido == 1){
+                ElementoLista dummy1;
+                dummy1.j = i -1;
+                dummy1.c = dummy.c;
+                LP[j - 1].push_back(dummy1);
+            }
         }
-    }
-    if (dirigido == 0) {
-        LS.resize(n);
-        for (k=0;k<m;k++) {
-			textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
-            dummy.j = j - 1;
-            LS[i-1].push_back(dummy);
-            dummy.j = i - 1;
-            LS[j-1].push_back(dummy);
-        }
+        errorapertura = 0;
     }
 }
 GRAFO::~GRAFO() {
@@ -84,35 +79,100 @@ unsigned GRAFO::Es_dirigido() {
     if (dirigido == 0){
         return false;
     }
-
+    return true;
 }
 
 void GRAFO::Info_Grafo() {
     if(Es_dirigido() == true ) {
         cout << "Es dirijido  | ";
-        cout << "nodos " << LP.size() << " | ";
-        cout << "Arcose" <<  << " | ";
+        cout << "Nodos " << n << " | ";
+        cout << "Arcos " << m << " | " << endl;
     }
     if(Es_dirigido() == false ) {
         cout << "Grafo no dirijido ";
-        cout << "nodos " << LP.size() << " | ";
-        cout << "Aristas" <<  << " | ";
+        cout << "nodos " << n << " | ";
+        cout << "Aristas" << m << " | ";
     }
 }
 
 void Mostrar_Lista(vector<LA_nodo> L) {
-
+    for (int r = 0; r < L.size() ; r++) {
+        std::cout << "nodo " << r + 1 << ": {";
+        for (ElementoLista dummy : L[r]) { // Recorro el vector
+            if (L[r].at(L[r].size() - 1).j == dummy.j) {
+                std::cout << dummy.j + 1 << " : "; // Nodo sucesor
+                std::cout << dummy.c; // Coste
+            }
+            else {
+                std::cout << dummy.j + 1 << " : "; // Nodo sucesor
+                std::cout << dummy.c << " , "; // Coste
+            }
+        }
+        std::cout << "}" << std::endl;
+    }
 }
-
 void GRAFO :: Mostrar_Listas (int l) {
+    if (l == -1) {
+        std::cout << " =Lista de predecesores== " << std::endl;
+        Mostrar_Lista(LP);
+    }
+    else if(l == 0){
+        std::cout << " ==Lista de adyacencia== " << std::endl;
+        Mostrar_Lista(LS);
+    }
+    else if (l == 1){
+        std::cout << " ==Lista de sucesores== " << std::endl;
+        Mostrar_Lista(LS);
+    }
+}
+/*void GRAFO :: Mostrar_Listas (int l) {
     if (l = 1) { // Sucesores
-        for(int w = 0; i < LS.size(); w++){
-            for(int t = 0; LS[w].size() < LP; t++)
-            cout << "[" << w+1 << "] ";
-            cout << LS[w][t].j << " : " << LS[w][t].c
+        std::cout << "--Lista de sucesores--" << std::endl;
+        for (int r = 0; r < LP.size() ; r++) {
+        std::cout << "Nodo " << r + 1 << ": {";
+        for (ElementoLista dummy : LP[r]) {
+            if (LP[r].at(LP[r].size() - 1).j == dummy.j) {
+                std::cout << dummy.j + 1;
+            }
+            else {
+                std::cout << dummy.j + 1 << ", ";
+            }
+        }
+        std::cout << "}" << std::endl;
+        }
+    }
+    if (l = -1) { // Predecesores
+        std::cout << "--Lista de predecesores--" << std::endl;
+        for (int r = 0; r < LP.size() ; r++) {
+        std::cout << "Nodo " << r + 1 << ": {";
+        for (ElementoLista dummy : LP[r]) {
+            if (LP[r].at(LP[r].size() - 1).j == dummy.j) {
+                std::cout << dummy.j + 1;
+            }
+            else {
+                std::cout << dummy.j + 1 << ", ";
+            }
+        }
+        std::cout << "}" << std::endl;
+        }
+    }
+    if (l = 0) { // Predecesores
+        std::cout << "--Lista de adyacencia--" << std::endl
+        for (int r = 0; r < LP.size() ; r++) {
+        std::cout << "Nodo " << r + 1 << ": {";
+        for (ElementoLista dummy : LP[r]) {
+            if (LP[r].at(LP[r].size() - 1).j == dummy.j) {
+                std::cout << dummy.j + 1;
+            }
+            else {
+                std::cout << dummy.j + 1 << ", ";
+            }
+        }
+        std::cout << "}" << std::endl;
         }
     }
 }
+*/
 
 void GRAFO::Mostrar_Matriz() {//Muestra la matriz de adyacencia, tanto los nodos adyacentes como sus costes
 
@@ -155,22 +215,42 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
     {   unsigned k = cola.front(); //cogemos el nodo k+1 de la cola
         cola.pop(); //lo sacamos de la cola
         //Hacemos el recorrido sobre L desde el nodo k+1
-        for (unsigned j=0;j<L[k].size();j++)
+        for (unsigned j=0;j<L[k].size();j++) {
             //Recorremos todos los nodos u adyacentes al nodo k+1
             //Si el nodo u no est� visitado
-            {
-            //Lo visitamos
-            //Lo metemos en la cola
-            //le asignamos el predecesor
-            //le calculamos su etiqueta distancia
+            int nodo = L[k].at(j).j;
+            if (visitado[nodo] == true) {
+                continue;
+            }
+            visitado[nodo] = true;
+            cola.push(nodo);
+            pred[nodo] = k;
+             d[nodo] = d[k] + 1;
             };
         //Hemos terminado pues la cola est� vac�a
     };
 }
 //Construye un recorrido en amplitud desde un nodo inicial
-void RecorridoAmplitud() {
-
-
-
+void GRAFO::RecorridoAmplitud() { // He añadido el Grafo porque sino no se puede usar el metodo bfs y la lista LS
+    cout << "Inicio del recorrido en Amplitud del Grafo" << endl;
+    int inicial = 1;
+    std::vector<unsigned> pred;
+    std::vector<unsigned> d;
+    bfs_num(inicial, LS, pred, d);
+    // imprimimos los resutlados;
+    std::cout << "predecesores: " << std::endl;
+    int nodo = 1;
+    for (auto valor : pred) {
+        std::cout << "[" << nodo << "] " << valor + 1 << " ";
+        ++nodo;
+    }
+    std::cout << std::endl;
+    std::cout << "distancias: " << std::endl;;
+    nodo = 1;
+    for (auto valor : d) {
+        std::cout << "[" << nodo << "] " << valor << " ";
+        ++nodo;
+    }
+    std::cout << std::endl;
 }
 
