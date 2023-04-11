@@ -97,18 +97,18 @@ void GRAFO::Info_Grafo() {
 
 void Mostrar_Lista(vector<LA_nodo> L) {
     for (int r = 0; r < L.size() ; r++) {
-        std::cout << "nodo " << r + 1 << ": {";
+        std::cout << "nodo " << r + 1 << ": [";
         for (ElementoLista dummy : L[r]) { // Recorro el vector
             if (L[r].at(L[r].size() - 1).j == dummy.j) {
                 std::cout << dummy.j + 1 << " : "; // Nodo sucesor
-                std::cout << dummy.c; // Coste
+                std::cout << " (" << dummy.c << ") "; // Coste
             }
             else {
                 std::cout << dummy.j + 1 << " : "; // Nodo sucesor
-                std::cout << dummy.c << " , "; // Coste
+                std::cout << " (" << dummy.c << ") , "; // Coste
             }
         }
-        std::cout << "}" << std::endl;
+        std::cout << "]" << std::endl;
     }
 }
 void GRAFO :: Mostrar_Listas (int l) {
