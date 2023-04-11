@@ -233,7 +233,10 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
 //Construye un recorrido en amplitud desde un nodo inicial
 void GRAFO::RecorridoAmplitud() { // He añadido el Grafo porque sino no se puede usar el metodo bfs y la lista LS
     cout << "Inicio del recorrido en Amplitud del Grafo" << endl;
-    int inicial = 1;
+    int inicial;
+    cout << "Escribe el nodo de partida";
+    cin >> inicial;
+    inicial -= 1;
     std::vector<unsigned> pred;
     std::vector<unsigned> d;
     bfs_num(inicial, LS, pred, d);
