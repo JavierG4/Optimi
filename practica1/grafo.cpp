@@ -13,7 +13,6 @@ void GRAFO :: destroy()
 	for (unsigned i=0; i< n; i++)
     {
 		LS[i].clear();
-		A[i].clear();
 		if (dirigido == 1)
         {
             LP[i].clear();
@@ -21,7 +20,6 @@ void GRAFO :: destroy()
 	}
 	LS.clear();
 	LP.clear();
-	A.clear();
 
 }
 
@@ -42,10 +40,15 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura) {
             dummy.j = j - 1;
             LS[i - 1].push_back(dummy);
             if(dirigido == 0) {
-                ElementoLista dummy1;
-                dummy1.j = i -1;
-                dummy1.c = dummy.c;
-                LS[j - 1].push_back(dummy1);
+                if(i ==j){
+                    continue;
+                }
+                else {
+                    ElementoLista dummy1;
+                    dummy1.j = i -1;
+                    dummy1.c = dummy.c;
+                    LS[j - 1].push_back(dummy1);
+                }
             }
             else if (dirigido == 1){
                 ElementoLista dummy1;
@@ -91,7 +94,7 @@ void GRAFO::Info_Grafo() {
     if(Es_dirigido() == false ) {
         cout << "Grafo no dirijido ";
         cout << "nodos " << n << " | ";
-        cout << "Aristas" << m << " | ";
+        cout << "Aristas " << m << " | ";
     }
 }
 
@@ -125,55 +128,6 @@ void GRAFO :: Mostrar_Listas (int l) {
         Mostrar_Lista(LS);
     }
 }
-/*void GRAFO :: Mostrar_Listas (int l) {
-    if (l = 1) { // Sucesores
-        std::cout << "--Lista de sucesores--" << std::endl;
-        for (int r = 0; r < LP.size() ; r++) {
-        std::cout << "Nodo " << r + 1 << ": {";
-        for (ElementoLista dummy : LP[r]) {
-            if (LP[r].at(LP[r].size() - 1).j == dummy.j) {
-                std::cout << dummy.j + 1;
-            }
-            else {
-                std::cout << dummy.j + 1 << ", ";
-            }
-        }
-        std::cout << "}" << std::endl;
-        }
-    }
-    if (l = -1) { // Predecesores
-        std::cout << "--Lista de predecesores--" << std::endl;
-        for (int r = 0; r < LP.size() ; r++) {
-        std::cout << "Nodo " << r + 1 << ": {";
-        for (ElementoLista dummy : LP[r]) {
-            if (LP[r].at(LP[r].size() - 1).j == dummy.j) {
-                std::cout << dummy.j + 1;
-            }
-            else {
-                std::cout << dummy.j + 1 << ", ";
-            }
-        }
-        std::cout << "}" << std::endl;
-        }
-    }
-    if (l = 0) { // Predecesores
-        std::cout << "--Lista de adyacencia--" << std::endl
-        for (int r = 0; r < LP.size() ; r++) {
-        std::cout << "Nodo " << r + 1 << ": {";
-        for (ElementoLista dummy : LP[r]) {
-            if (LP[r].at(LP[r].size() - 1).j == dummy.j) {
-                std::cout << dummy.j + 1;
-            }
-            else {
-                std::cout << dummy.j + 1 << ", ";
-            }
-        }
-        std::cout << "}" << std::endl;
-        }
-    }
-}
-*/
-
 void GRAFO::Mostrar_Matriz() {//Muestra la matriz de adyacencia, tanto los nodos adyacentes como sus costes
 
 }
