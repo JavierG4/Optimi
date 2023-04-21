@@ -23,7 +23,7 @@ void menu (unsigned dirigido, char &opcion) {
             cout << "r. Realizar un recorrido en p[r]ofundidad del grafo desde un nodo" << endl;
             cout << "o. Mostrar c[o]mponentes conexas del grafo" << endl;
             cout << "k. Mostrar árbol generador minimo coste, [k]ruskal" << endl;
-            cout << "p. Mostrar árbol generador minimo coste, [p]rim" << endl;
+            cout << "P. Mostrar árbol generador minimo coste, [p]rim" << endl;
     }
     else {
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
@@ -99,6 +99,9 @@ int main(int argc, char *argv[]) {
                     break;
                 case 'm':
                     G.RecorridoAmplitud();
+                    break;
+                case 'P':
+                    G.ArbolPrim();
                     break;
             } 
 

@@ -40,7 +40,7 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura) {
             dummy.j = j - 1;
             LS[i - 1].push_back(dummy);
             if(dirigido == 0) {
-                if(i ==j){
+                if(i == j){
                     continue;
                 }
                 else {
@@ -210,4 +210,50 @@ void GRAFO::RecorridoAmplitud() { // He añadido el Grafo porque sino no se pued
     }
     std::cout << std::endl;
 }
+void GRAFO::Prim(int T, vector<int> Coste, vector<bool> M, vector<LA_nodo> pred){
+    T = 0;
+//Para todo nodo i de V hacer coste[i] = ∞
+//M = {1}
+    M = true;
+//coste[1] = 0
+    Coste[0] = 0;
+//pred[1] = 1
+    pred [0] = 0;
+//Mientras en T no haya n-1 aristas hacer
+    while (T != n-1) {
+//sea u el último nodo que entró en M
+//u va a mejorar costes
+        int u = 0;
+//para todo j adyacente a u en V-M hacer
+        for (int r = 0; r < LS[u].size()) {
+//si coste[j] < w(u, j) entonces
+            if (Coste[LS[u][r].j] < LS[u][r].c){
+//coste[j] = w(u,j) //Esta arista es menos costosa
+                Coste[LS[u][r].j] = LS[u][r].c;
+//pred[j] = u //cambio el nodo de conexión
+                pred[LS[u][r].j] = u;
+            }
+        }
+//sea u = nodo con menor coste en V-M
+//M = M U {u}
+//T = T U {(u, pred[u])]
+    }
 
+}
+
+void GRAFO::ArbolPrim(){
+    // Crear vector de booleanos
+    // La solucion esta en coste y pred
+    //Para todo nodo i de V hacer coste[i] = Infinito (usamos el maxint)
+    int T = 0;
+    //Añadir vector de costes
+    std::vector<int> Coste;
+    std::vector<bool> M;
+    //Añadir vector de nodos
+    std::vector<LA_nodo> pred;
+    Costes.resize(n, maxint);
+    M.resize(n, false);
+    Prim(T, Coste, M, pred);
+
+    // A partir de aqui imprimo lo que obtenga
+}
