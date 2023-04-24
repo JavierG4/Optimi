@@ -52,7 +52,6 @@ public:
      void RecorridoProfundidad(); //Construye un recorrido en profundidad desde un nodo inicial
      void RecorridoAmplitud(); //Construye un recorrido en amplitud desde un nodo inicial
 	 void ArbolPrim(); // Imprime los resultados e inicializa las variables
-	 void Prim(int T, vector<int> Coste, vector<bool> M, vector<LA_nodo> pred); // ALgoritmo de Prim
      ~GRAFO(); //Destructor del objeto grafo
 };
 

@@ -210,50 +210,62 @@ void GRAFO::RecorridoAmplitud() { // He añadido el Grafo porque sino no se pued
     }
     std::cout << std::endl;
 }
-void GRAFO::Prim(int T, vector<int> Coste, vector<bool> M, vector<LA_nodo> pred){
-    T = 0;
-//Para todo nodo i de V hacer coste[i] = ∞
-//M = {1}
-    M = true;
-//coste[1] = 0
-    Coste[0] = 0;
+void GRAFO::ArbolPrim() {
+    // Crear vector de booleanos
+    // La solucion esta en coste y pred
+    //Para todo nodo i de V hacer coste[i] = Infinito (usamos el maxint)
+    int inicial = 0;
+    std::cout << "Introduce el nodo del que quieras partir ";
+    std::cin >> inicial;
+    inicial -= 1;
+    int T = 0;
+    //Añadir vector de costes
+    std::vector<int> Coste;
+    //vector de visitados   
+    std::vector<bool> M;
+    //Añadir vector de nodos
+    std::vector<int> pred;
+    pred.resize(n,-1);
+    Coste.resize(n, maxint);
+    M.resize(n, false);
+    //pred.resize(n,-1);
+    //u va a mejorar costes
+    int u = inicial;
 //pred[1] = 1
-    pred [0] = 0;
-//Mientras en T no haya n-1 aristas hacer
+    pred[inicial] = inicial;
+//coste[1] = 0
+    Coste[inicial] = 0;
+//M = {1}
+    M[inicial]= true;
+    int menorcos = maxint;
+    int siguiente_u = inicial;
+    int total = 0;
     while (T != n-1) {
 //sea u el último nodo que entró en M
-//u va a mejorar costes
-        int u = 0;
 //para todo j adyacente a u en V-M hacer
-        for (int r = 0; r < LS[u].size()) {
+        for (int r = 0; r < LS[u].size(); r++) {
 //si coste[j] < w(u, j) entonces
-            if (Coste[LS[u][r].j] < LS[u][r].c){
+            if (!M[LS[u][r].j] && Coste[LS[u][r].j] > LS[u][r].c) {
 //coste[j] = w(u,j) //Esta arista es menos costosa
                 Coste[LS[u][r].j] = LS[u][r].c;
 //pred[j] = u //cambio el nodo de conexión
                 pred[LS[u][r].j] = u;
             }
+            if(!M[LS[u][r].j] && menorcos > Coste[LS[u][r].j]) {
+                menorcos = Coste[LS[u][r].j];
+// EL siguiente de u es igual al sucesor
+                siguiente_u = LS[u][r].j;
+            }
         }
-//sea u = nodo con menor coste en V-M
-//M = M U {u}
+        std::cout << "[ " << u+1 << " , " << siguiente_u + 1 << " ]";
+        std::cout << "[ " << Coste[siguiente_u] << " ]" << std::endl;
+        total += Coste[siguiente_u];
 //T = T U {(u, pred[u])]
+        T++;
+        u = siguiente_u;
+        menorcos = maxint;
+//M = M U {u}
+        M[u] = true;
     }
-
-}
-
-void GRAFO::ArbolPrim(){
-    // Crear vector de booleanos
-    // La solucion esta en coste y pred
-    //Para todo nodo i de V hacer coste[i] = Infinito (usamos el maxint)
-    int T = 0;
-    //Añadir vector de costes
-    std::vector<int> Coste;
-    std::vector<bool> M;
-    //Añadir vector de nodos
-    std::vector<LA_nodo> pred;
-    Costes.resize(n, maxint);
-    M.resize(n, false);
-    Prim(T, Coste, M, pred);
-
-    // A partir de aqui imprimo lo que obtenga
+    std::cout << "El coste total es el " << total << std::endl;
 }
