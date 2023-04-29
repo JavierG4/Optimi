@@ -228,7 +228,7 @@ void GRAFO::ArbolPrim() {
     pred.resize(n,-1);
     Coste.resize(n, maxint);
     M.resize(n, false);
-    //pred.resize(n,-1);
+
     //u va a mejorar costes
     int u = inicial;
 //pred[1] = 1
